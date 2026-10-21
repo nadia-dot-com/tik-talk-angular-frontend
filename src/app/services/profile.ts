@@ -12,19 +12,15 @@ export class ProfileService {
     me = signal<Profile | null>(null);
     private readonly baseUrl = 'http://localhost:8000/yt-course';
     filteredProfiles = signal<Profile[] | null>(null);
-
+    filteredSubscribers = signal<Profile[] | null>(null);
+    
     private withAbsoluteAvatar(profile: Profile): Profile {
         if (!profile.avatarUrl || profile.avatarUrl.startsWith('http')) return profile;
         return { ...profile, avatarUrl: `${this.baseUrl}/${profile.avatarUrl}` };
     }
 
-    getProfiles() {
-        const url = "http://localhost:8000/yt-course/account/test_accounts";
-        return this.http.get<Profile[]>(url);
-    }
-
     getMe() {
-        return this.http.get<Profile>('http://localhost:8000/yt-course/account/me/')
+        return this.http.get<Profile>('http://localhost:8000/yt-course/account/me')
             .pipe(
                 map(res => this.withAbsoluteAvatar(res)),
                 tap(res => this.me.set(res))
@@ -34,11 +30,6 @@ export class ProfileService {
     getProfile(id: string) {
         return this.http.get<Profile>(`http://localhost:8000/yt-course/account/${id}`)
             .pipe(map(res => this.withAbsoluteAvatar(res)))
-    }
-
-    getSubscribers() {
-        return this.http.get<Pageble<Profile>>('http://localhost:8000/yt-course/account/subscribers/')
-            .pipe(map(res => ({ ...res, items: res.items.map(p => this.withAbsoluteAvatar(p)) })))
     }
 
     patchProfile(profile: Partial<Profile>) {
@@ -75,8 +66,29 @@ export class ProfileService {
             )
     }
 
+    getSubscribers() {
+        return this.http.get<Pageble<Profile>>('http://localhost:8000/yt-course/account/subscribers/')
+            .pipe(map(res => ({ ...res, items: res.items.map(p => this.withAbsoluteAvatar(p)) })))
+    }
+
+    filterSubscribers(params: Record<string, any>) {
+        return this.http.get<Pageble<Profile>>(`http://localhost:8000/yt-course/account/subscribers/`, { params })
+            .pipe(
+                map(res => ({ ...res, items: res.items.map(p => this.withAbsoluteAvatar(p)) })),
+                tap((res: Pageble<Profile>) => {
+                    console.log(res.items)
+                    return this.filteredSubscribers.set(res.items)
+                })
+            )
+    }
+
+    getProfiles() {
+        const url = "http://localhost:8000/yt-course/account/test_accounts/";
+        return this.http.get<Profile[]>(url);
+    }
+
     filterProfiles(params: Record<string, any>) {
-        return this.http.get<Pageble<Profile>>(`http://localhost:8000/yt-course/account/accounts`, { params })
+        return this.http.get<Pageble<Profile>>(`http://localhost:8000/yt-course/account/accounts/`, { params })
             .pipe(
                 map(res => ({ ...res, items: res.items.map(p => this.withAbsoluteAvatar(p)) })),
                 tap((res: Pageble<Profile>) => this.filteredProfiles.set(res.items))

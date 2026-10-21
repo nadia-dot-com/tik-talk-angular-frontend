@@ -1,3 +1,6 @@
+import { Observable } from "rxjs";
+import { Pageble } from "./pagable.types";
+
 export interface Profile {
     id: number;
     username: string;
@@ -10,3 +13,5 @@ export interface Profile {
     stack: string[];
     city: string;
 }
+
+export type ProfileFilterMethod = (params: Record<string, any>) => Observable<Pageble<Profile>>;

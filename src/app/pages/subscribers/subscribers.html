@@ -1,0 +1,7 @@
+<app-profile-filters [profileMethod]="filterSubscribers"></app-profile-filters>
+
+<ul>
+    @for(subscriber of subscribers(); track subscriber.id) {
+    <app-profile-card [profile]="subscriber" />
+    }
+</ul>

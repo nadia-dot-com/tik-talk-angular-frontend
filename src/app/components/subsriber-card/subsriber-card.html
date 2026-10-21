@@ -1,4 +1,6 @@
-<div class="subsriber-card">
-    <img class="subsriber-avatar" [src]="(subscriber()?.avatarUrl ?? null) | imgUrl" alt="Subsriber Avatar">
-    <strong>{{ subscriber()?.firstName }} {{subscriber()?.lastName}}</strong>
-</div>
+@if(profile(); as profile){
+<a class="subsriber-card" [routerLink]="`/profile/${profile.id}`">
+    <img class="subsriber-avatar" [src]="(profile.avatarUrl ?? null) | imgUrl" alt="Subsriber Avatar">
+    <strong>{{ profile.firstName }} {{profile.lastName}}</strong>
+</a>
+}

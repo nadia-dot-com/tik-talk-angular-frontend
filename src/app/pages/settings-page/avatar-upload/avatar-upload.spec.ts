@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AvatarUpload } from './avatar-upload';
+import { AvatarUploadComponent } from './avatar-upload';
 
-describe('AvatarUpload', () => {
-  let component: AvatarUpload;
-  let fixture: ComponentFixture<AvatarUpload>;
+describe('AvatarUploadComponent', () => {
+  let component: AvatarUploadComponent;
+  let fixture: ComponentFixture<AvatarUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AvatarUpload]
+      imports: [AvatarUploadComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(AvatarUpload);
+    fixture = TestBed.createComponent(AvatarUploadComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

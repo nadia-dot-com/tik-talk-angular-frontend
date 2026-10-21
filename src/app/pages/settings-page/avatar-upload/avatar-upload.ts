@@ -1,15 +1,15 @@
-import { SvgIcon } from '@/app/components/svg-icon/svg-icon';
+import { SvgIconComponent } from '@/app/components/svg-icon/svg-icon';
 import { DndDirective } from '@/app/directives/dnd';
 import { Component, effect, input, linkedSignal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [SvgIcon, DndDirective, FormsModule],
+  imports: [SvgIconComponent, DndDirective, FormsModule],
   selector: 'app-avatar-upload',
   styleUrl: './avatar-upload.scss',
   templateUrl: './avatar-upload.html',
 })
-export class AvatarUpload {
+export class AvatarUploadComponent {
   currentAvatarUrl = input<string | null>(null);
 
   preview = linkedSignal(() => this.currentAvatarUrl() ?? '/assets/images/avatar.png');

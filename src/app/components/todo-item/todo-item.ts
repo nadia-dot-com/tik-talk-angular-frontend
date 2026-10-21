@@ -9,7 +9,7 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './todo-item.scss',
   templateUrl: './todo-item.html',
 })
-export class TodoItem {
+export class TodoItemComponent {
   todo = input.required<Todo>();
   todoToggled = output<Todo>();
 

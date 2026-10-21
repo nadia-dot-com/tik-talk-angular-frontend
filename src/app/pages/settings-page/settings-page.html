@@ -1,5 +1,14 @@
-<!-- <app-profile-header [profile]="profile"></app-profile-header> -->
-<div></div>
+<div class="profileContainer">
+    @if(profile(); as profile) {
+    <app-profile-header [profile]="profile"></app-profile-header>
+
+    <div class="separator"></div>
+
+    <app-profile-details [stack]="(profile)?.stack ?? []"
+        [description]="(profile)?.description ?? ''"></app-profile-details>
+    }
+</div>
+
 
 <form class="profileForm" [formGroup]="form" (ngSubmit)="onSave()">
     <div class="formContainer">
@@ -27,7 +36,7 @@
                 placeholder="Tell us about yourself"></textarea>
         </div>
 
-        <div class="field" >
+        <div class="field">
             <label for="userName">Avatar</label>
             <app-avatar-upload [currentAvatarUrl]="profileService.me()?.avatarUrl ?? null"></app-avatar-upload>
         </div>

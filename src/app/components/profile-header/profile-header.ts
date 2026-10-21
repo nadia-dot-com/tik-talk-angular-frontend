@@ -1,7 +1,7 @@
 import { Profile } from '@/app/model/profile.types';
 import { ImgUrlPipe } from '@/app/pipes/img-url-pipe';
 import { Component, effect, input} from '@angular/core';
-import { SvgIcon } from '../svg-icon/svg-icon';
+import { SvgIconComponent } from '../svg-icon/svg-icon';
 
 @Component({
   imports: [ImgUrlPipe],
@@ -9,6 +9,6 @@ import { SvgIcon } from '../svg-icon/svg-icon';
   styleUrl: './profile-header.scss',
   templateUrl: './profile-header.html',
 })
-export class ProfileHeader {
+export class ProfileHeaderComponent {
   profile = input<Profile | null>(null);
 }

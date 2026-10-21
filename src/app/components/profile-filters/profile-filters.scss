@@ -1,15 +1,16 @@
   @use "../../../variables" as v;
-  
-  .profileForm{
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    background-color: black;
-    padding: 16px 20px;
-    border: 1px solid v.$foreground;
-    width: 100%;
+
+  .profileForm {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      background-color: black;
+      padding: 16px 20px;
+      border: 1px solid v.$foreground;
+      width: 100%;
   }
-  
+
   .field {
       display: flex;
       flex-direction: column;
@@ -33,4 +34,20 @@
       background-color: black;
       border-bottom: 1px, solid v.$foreground;
       border-radius: 0%;
+  }
+
+  .button {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+      height: 46px;
+      width: 46px;
+      cursor: pointer;
+
+      svg {
+          color: inherit;
+          position: relative;
+          top: 2px;
+          left: -7px;
+      }
   }

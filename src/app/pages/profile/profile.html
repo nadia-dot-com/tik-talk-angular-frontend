@@ -1,0 +1,38 @@
+@if(profile$ | async; as profile) {
+<header class="profilePageHeader">
+    <app-profile-header [profile]="profile"></app-profile-header>
+
+    @if(isMe()) {
+    <a routerLink="/settings">
+        <p>Edit</p> <svg [icon]="'settings'"></svg>
+    </a>
+    }
+</header>
+}
+
+<main class="pageBody">
+    <app-post-feed></app-post-feed>
+
+    <div class="myInfo">
+        <div class="subscibersTitle">
+            <p class="title">Subscribers</p>
+            <span>{{subscribers()?.length}}</span>
+        </div>
+
+        <ul class="subscribers">
+            @for(subscriber of subscribers(); track subscriber.id) {
+            <li>
+                <a [routerLink]="[`/profile/${subscriber.id}`]">
+                    <img [src]="subscriber.avatarUrl | imgUrl" alt="`${subscriber.userrname} avatar`">
+                </a>
+            </li>
+            }
+            <li>
+                <a class="subscribersSearch" [routerLink]="['/search']">+</a>
+            </li>
+        </ul>
+
+        <app-profile-details [stack]="(profile$ | async)?.stack ?? []"
+            [description]="(profile$ | async)?.description ?? ''"></app-profile-details>
+    </div>
+</main>

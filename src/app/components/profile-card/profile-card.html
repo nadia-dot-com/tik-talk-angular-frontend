@@ -1,4 +1,4 @@
-<div class="profile-card">
+<a class="profile-card" [routerLink]="`/profile/${profile().id}`">
     <div class="avatar-name">
         <img [src]="profile().avatarUrl | imgUrl" alt="avatar" class="avatar">
 
@@ -17,4 +17,4 @@
     </ul>
 
     <button>Subsribe</button>
-</div>
+</a>

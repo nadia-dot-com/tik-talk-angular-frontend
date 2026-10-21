@@ -1,18 +1,19 @@
-import { ProfileService } from '@/app/services/profile';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, startWith, Subscription, switchMap } from 'rxjs';
+import { SvgIconComponent } from '../svg-icon/svg-icon';
+import { ProfileFilterMethod } from '@/app/model/profile.types';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, SvgIconComponent],
   selector: 'app-profile-filters',
   styleUrl: './profile-filters.scss',
   templateUrl: './profile-filters.html',
 })
-export class ProfileFilters {
+export class ProfileFiltersComponent {
   fb = inject(FormBuilder);
-  profileService = inject(ProfileService);
+  profileMethod = input.required<ProfileFilterMethod>();
 
   searchForms = this.fb.group({
     firstName: [''],
@@ -28,9 +29,18 @@ export class ProfileFilters {
       .pipe(
         startWith({}),
         debounceTime(500),
-        switchMap(formValue => this.profileService.filterProfiles(formValue)),
+        switchMap(formValue => {
+          const params = Object.fromEntries(
+            Object.entries(formValue).filter(([, value]) => !!value)
+          );
+          return this.profileMethod()(params);
+        }),
         takeUntilDestroyed()
       )
       .subscribe()
+  }
+
+  cleanFilters() {
+   this.searchForms.reset()
   }
 }

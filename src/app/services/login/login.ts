@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { EnvironmentInjector, inject, Injectable } from '@angular/core';
 import { Login, LoginResponse } from '../../model/login.types';
 import { catchError, tap, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,7 +12,11 @@ import { Router } from '@angular/router';
 export class LoginService {
     http = inject(HttpClient);
     cookiesService = inject(CookieService);
-    router = inject(Router);
+    private injector = inject(EnvironmentInjector);
+
+    get router(): Router {
+        return this.injector.get(Router);
+    }
 
     token: string | null = this.cookiesService.get(TOKEN) || null;
     refreshToken: string | null = this.cookiesService.get(REFRESH_TOKEN) || null;

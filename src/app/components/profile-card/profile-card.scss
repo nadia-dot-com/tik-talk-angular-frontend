@@ -1,12 +1,17 @@
 @use "../../../variables" as v;
 
 .profile-card {
+    height: 160px;
     border: 1px solid v.$foreground;
     padding: 24px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 32px;
     align-items: center;
+
+    &:hover {
+        color: white;
+    }
 
     .avatar-name {
         display: flex;
@@ -28,21 +33,21 @@
     }
 
     .profile-tags {
-        display: flex;
-        gap: 10px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        line-height: 2;
+        overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow-x: auto;
-
-        &::-webkit-scrollbar {
-            color: transparent;
-        }
 
         .skill-tag {
             border: 1px solid v.$foreground;
             border-radius: 2px;
             padding: 4px 8px;
-            display: inline;
+            margin: 0 10px 10px 0;
+            display: inline-block;
+            vertical-align: bottom;
             font-weight: 700;
         }
     }
@@ -53,4 +58,8 @@
         line-clamp: 3;
     }
 
+    button {
+        width: 140px;
+        justify-self: center;
+    }
 }

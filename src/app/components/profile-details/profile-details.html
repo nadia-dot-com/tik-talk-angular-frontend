@@ -1,0 +1,22 @@
+@if(stack().length) {
+<div class="title">Skills</div>
+
+<div class="skillsContainer">
+    <ul class="skills" #skills [class.expanded]="skillsExpanded()">
+        @for(tag of stack(); track tag) {
+        <li class="skillTag">{{tag}}</li>
+        }
+    </ul>
+    @if(hasOverflow() || skillsExpanded()) {
+    <button class="expandedButton" type="button" (click)="toggleExpanded()">
+        {{skillsExpanded() ? 'Show less' : '...' }}
+    </button>
+    }
+</div>
+}
+
+@if(description(); as description) {
+<div class="title">About me</div>
+
+<div class="description">{{ description }}</div>
+}

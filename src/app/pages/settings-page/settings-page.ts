@@ -1,12 +1,13 @@
-import { ProfileHeader } from '@/app/components/profile-header/profile-header';
+import { ProfileHeaderComponent } from '@/app/components/profile-header/profile-header';
 import { ProfileService } from '@/app/services/profile';
-import { Component, effect, inject, ViewChild } from '@angular/core';
+import { Component, effect, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { AvatarUpload } from './avatar-upload/avatar-upload';
+import { AvatarUploadComponent } from './avatar-upload/avatar-upload';
+import { ProfileDetailsComponent } from '@/app/components/profile-details/profile-details';
 
 @Component({
-  imports: [ReactiveFormsModule, AvatarUpload],
+  imports: [ReactiveFormsModule, AvatarUploadComponent, ProfileHeaderComponent, ProfileDetailsComponent],
   selector: 'app-settings-page',
   styleUrl: './settings-page.scss',
   templateUrl: './settings-page.html',
@@ -14,6 +15,7 @@ import { AvatarUpload } from './avatar-upload/avatar-upload';
 export class SettingsPage {
   fb = inject(FormBuilder);
   profileService = inject(ProfileService);
+  profile = this.profileService.me;
 
   form = this.fb.group({
     firstName: ['', Validators.required],
@@ -23,7 +25,7 @@ export class SettingsPage {
     stack: [''],
   });
 
-  @ViewChild(AvatarUpload) avatarUploader!: AvatarUpload;
+  @ViewChild(AvatarUploadComponent) avatarUploader!: AvatarUploadComponent;
 
   constructor() {
     effect(() => {
@@ -49,8 +51,6 @@ export class SettingsPage {
     if(this.avatarUploader.avatar) {
       await firstValueFrom(this.profileService.uploadAvatar(this.avatarUploader.avatar));
     }
-
-    console.log(this.avatarUploader.avatar)
 
     //@ts-ignore
     await firstValueFrom(this.profileService.patchProfile({ ...this.form.value, stack: this.splitStack(this.form.value.stack) }));
