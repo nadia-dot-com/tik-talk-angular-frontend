@@ -6,7 +6,7 @@ A frontend for a small messenger and social network (users, profiles, chats), bu
 
 ## Preview
 
-![Tik Talk](./public/assets/preview/tik-talk-angular-preview.mp4)
+![Tik Talk](./public/assets/preview/tik-talk-angular-preview.gif)
 
 ## Features
 
