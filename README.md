@@ -1,59 +1,93 @@
-# MyAngular
+# Tik-Talk Angular: messenger frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
+A frontend for a small messenger and social network (users, profiles, chats), built with **Angular**. It talks to a separate backend API (see [Backend server](#backend-server)). This is a fork of tick-talk-angular-frontend. So the app only works with that server running.
 
-## Development server
+> **Status:** work in progress. Login, profiles, settings, search and subscribers are working. The chats page and the post feed are still UI stubs.
 
-To start a local development server, run:
+## Preview
+
+![Tik Talk](./public/assets/preview/tik-talk-angular-preview.mp4)
+
+## Features
+
+- **Login** with a username and password, with token authentication (access and refresh tokens stored in cookies)
+- **Automatic token refresh**: an HTTP interceptor adds the token to every request and, when the access token expires, refreshes it once and retries the waiting requests
+- **Protected routes**: pages are available only after login (route guard), otherwise the user is redirected to `/login`
+- **Profile page** for the current user (`/profile/me`) and for other users (`/profile/:id`), with a subscribers preview
+- **Settings page**: reactive form with validation to edit the profile (name, description, tech stack), and **avatar upload with drag and drop** and an image preview
+- **Search** and **Subscribers** pages with filters (first name, last name, city, stack): the filters are debounced and the results update as you type
+- **Profile details** with a skills list that can be expanded when it overflows (detected with `ResizeObserver`)
+- **Practice pages and building blocks**: todos list (custom pipe and directive), reusable cards and an SVG icon component
+
+## What I practiced
+
+- Standalone components and lazy-loaded routes (`loadComponent`)
+- Signals: `signal`, `linkedSignal`, `effect`, signal-based `input()` and `output()`
+- RxJS: `switchMap`, `debounceTime`, `BehaviorSubject`, `takeUntilDestroyed`, `firstValueFrom`
+- `HttpClient`, a functional interceptor and a functional route guard
+- Reactive forms: `FormBuilder`, `FormGroup`, validators, `valueChanges`
+- Custom directives (`HostBinding`, `HostListener`) and custom pipes
+- `ViewChild`, `DestroyRef` and cleaning up subscriptions and observers
+
+## Tech stack
+
+Angular, TypeScript, RxJS, SCSS, `ngx-cookie-service`, Vitest, Prettier
+
+## Backend server
+
+The app needs the backend API. It is not part of this repository: it lives in a separate repository, [nadia-dot-com/tik-talk-pingly-backend](https://github.com/nadia-dot-com/tik-talk-pingly-backend), a fork of the original [Kosmostars7403/icher-angular-course](https://github.com/Kosmostars7403/icher-angular-course) (FastAPI, PostgreSQL, Redis, run with Docker Compose).
+
+1. Install Git, Docker Engine and the Docker Compose plugin.
+2. Clone the server and open its folder:
+
+   ```bash
+   git clone https://github.com/nadia-dot-com/tik-talk-pingly-backend.git
+   cd tik-talk-pingly-backend
+   ```
+
+3. Create a `.env` file in the server folder, as described in the server's README ("Локальный запуск", step 2). Use only local development values there and never commit this file.
+4. Start the server:
+
+   ```bash
+   make run
+   ```
+
+   The first run builds the images, applies the database migrations and loads test data.
+
+5. Check that the API is running: open [http://localhost:8000/yt-course/docs](http://localhost:8000/yt-course/docs).
+
+To stop the server, run `make stop` in the server folder.
+
+## Getting started (frontend)
+
+Make sure the backend server above is running, then:
 
 ```bash
-ng serve
+npm install
+npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open [http://localhost:4200](http://localhost:4200) and log in with a user account from the server. <!-- TODO: add which test user to use -->
 
-## Code scaffolding
+The frontend sends the login request to the server's `/auth/token` endpoint. You can explore all available endpoints in the server's API docs at `/yt-course/docs`.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The frontend expects the API at `http://localhost:8000/yt-course/` (see `src/app/config/app.ts`).
+
+### Other commands
 
 ```bash
-ng generate component component-name
+npm run build   # production build into dist/
+npm test        # unit tests with Vitest
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Project structure
 
-```bash
-ng generate --help
+```text
+src/app/
+  components/   reusable UI (sidebar, profile cards, filters, details, SVG icons)
+  pages/        routed pages (login, profile, settings, search, subscribers, chats)
+  services/     API and auth services, interceptor and guard
+  directives/   drag and drop, highlight
+  pipes/        image URL, todo filter
+  model/        TypeScript types
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

@@ -23,7 +23,7 @@ export class LoginPage {
     if (this.form.valid) {
       this.loginService.login(this.form.getRawValue())
         .subscribe((value: any) => {
-          this.router.navigate([''])
+          this.router.navigate(['/profile/me'])
           console.log(value)
         })
     }

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { canAvtivaleLogin } from './services/login/access.guard';
+import { canActivateLogin } from './services/login/access.guard';
 
 export const routes: Routes = [
     {
@@ -10,7 +10,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        canActivate: [canAvtivaleLogin],
+        canActivate: [canActivateLogin],
         children: [
             {
                 path: 'profile/:id',
