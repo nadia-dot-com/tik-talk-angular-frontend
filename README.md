@@ -80,6 +80,11 @@ npm run build   # production build into dist/
 npm test        # unit tests with Vitest
 ```
 
+### Test account for ease test
+
+ Login: test_user_ws
+ Password: websocket
+
 ## Project structure
 
 ```text
